@@ -21,9 +21,7 @@ const server = Bun.serve({
     development: true, // Mode développement pour la compilation
 
     async fetch(req: Request, srv: Server) {
-        if (srv.upgrade(req)) {
-            return
-        }
+        if (srv.upgrade(req)) { return }
 
         const url: URL = new URL(req.url)
         const filename: string = url.pathname === "/" ? "/index.html" : url.pathname

@@ -2,7 +2,6 @@
 * Web Socket
 */
 
-// Fonction de webSocket
 export function webSocketInit() {
 	const ws = new WebSocket(`ws://${location.host}`)
 
