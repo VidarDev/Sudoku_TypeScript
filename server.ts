@@ -1,53 +1,59 @@
-import { join } from 'node:path';
-import { WatchEventType, watch, FSWatcher } from "node:fs";
-import { ServerWebSocket, Server } from 'bun';
+import { join } from "node:path"
+import { WatchEventType, watch, FSWatcher } from "node:fs"
+import type { ServerWebSocket, Server } from "bun"
 
-const port: number = parseInt(process.argv[2]);
-const baseDir = join(import.meta.dir, "www");
+const serverPort: string | undefined = process.env.PORT
+const baseDir = join(import.meta.dir, "www") // Path du répertoire du index.html
 
-const wsClients: Set<ServerWebSocket> = new Set();
-const watcher: FSWatcher = watch(
+const wsClients: Set<ServerWebSocket> = new Set()
+const serverWatcher: FSWatcher = watch(
     baseDir,
     { recursive: true },
     (event: WatchEventType, data: string | Error | undefined) => {
-        console.log("Something changed", data);
-        wsClients.forEach((ws: ServerWebSocket) => ws.send("reload"));
+        console.log("Something has changed in :", data) // Si, il y a un changement dans le code source
+        wsClients.forEach((ws: ServerWebSocket) => ws.send("reload"))
     }
 )
-process.on("SIGINT", () => watcher.close())
+process.on("SIGINT", () => process.exit(0)) // ctrl + c : Interruption du serveur
 
 const server = Bun.serve({
-    port: 5000 | port,
+    port: serverPort,
+    development: true, // Mode développement pour la compilation
+
     async fetch(req: Request, srv: Server) {
-        if(srv.upgrade(req)) {
+        if (srv.upgrade(req)) {
             return
         }
-        const url = new URL(req.url);
-        const filename = url.pathname === "/"
-            ? "/index.html"
-            : url.pathname;
-        const filePath = join(baseDir, filename);
-        //console.log(filePath);
-        const file = Bun.file(filePath); // Read the file index.html
-        if(!(await file.exists())) {
-            return new Response(await
-                    `Not Found "${filePath}"`,
-                { status: 404 }
-            );
+
+        const url: URL = new URL(req.url)
+        const filename: string = url.pathname === "/" ? "/index.html" : url.pathname
+        const filePath: string = join(baseDir, filename)
+        const fileToServe = Bun.file(filePath)
+
+        // Si un fichier a une error 404 au chargement
+        if (!(await fileToServe.exists())) {
+            return new Response(
+                `Unknown file : "${filePath}"`,
+                {status: 404}
+            )
         }
-        return new Response(file);
+
+        return new Response(fileToServe)
     },
+
     websocket: {
         open(ws: ServerWebSocket) {
-            wsClients.add(ws);
+            wsClients.add(ws)
         },
         close(ws: ServerWebSocket) {
-            wsClients.delete(ws);
+            wsClients.delete(ws)
         },
         message(ws: ServerWebSocket, message: string) {
-            console.log(`Message received from"${ws.remoteAddress}": "${message}`);
+            if (message !== "ping") {
+                console.log(`Message received from "${server.hostname}:${server.port}" : "${message}"`)
+            }
             ws.send("Well received")
         }
     }
 })
-console.log(`HTTP Server listening on ${server.hostname}:${server.port}`);
+console.log(`${process.env.PROTOCOL?.toUpperCase()} Server listening on ${server.hostname}:${server.port}`)
