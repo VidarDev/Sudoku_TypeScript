@@ -1,0 +1,102 @@
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+input[type='checkbox']:focus-visible + label::before,
+input[type='radio']:focus-visible + label::before,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible,
+video:focus-visible[controls],
+audio:focus-visible[controls],
+[contenteditable]:not([contenteditable='false']):focus-visible,
+details:focus-visible,
+details > summary:first-of-type:focus-visible {
+  outline-style: solid;
+}
+
+a,
+button,
+input,
+input[type='checkbox'] + label::before,
+input[type='radio'] + label::before,
+select,
+textarea,
+[tabindex],
+video[controls],
+audio[controls],
+[contenteditable]:not([contenteditable='false']),
+details,
+details > summary:first-of-type {
+  outline-offset: 2px;
+  outline-width: 2px;
+  outline-color: var(--brand-uno);
+}
+
+p {
+  margin-bottom: 0.5rem;
+  margin-top: 0;
+}
+
+ul {
+  list-style: none;
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  padding-left: 0;
+}
+
+table {
+  width: 100%;
+  border-spacing: 0.5rem;
+}
+
+a {
+  text-decoration: none !important;
+  outline: none !important;
+  color: inherit;
+}
+
+img {
+  vertical-align: middle;
+  border-style: none;
+}
+
+button, input, optgroup, select, textarea {
+  margin: 0;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -15px;
+  margin-left: -15px;
+}
+
+body {
+  font-family: var(--font-family-primary);
+  color: var(--neutral);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20px; // 125%
+  background-color: var(--neutral-white);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

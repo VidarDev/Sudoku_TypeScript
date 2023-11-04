@@ -1,0 +1,20 @@
+$component-name: title;
+
+.#{$component-name} {
+  position: fixed;
+  top: 10dvh;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 3dvw;
+  line-height: calc(3dvw * 1.25);
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+@media (width <= $breakpoints-lg) {
+
+  .#{$component-name} {
+    font-size: 6dvw;
+    line-height: calc(6dvw * 1.25);
+  }
+}

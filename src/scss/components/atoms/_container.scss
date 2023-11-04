@@ -1,0 +1,55 @@
+$component-name: container;
+
+.#{$component-name} {
+  width: 100%;
+  margin-inline: auto;
+  max-width: calc($breakpoints-4xl - 6rem);
+}
+
+@media (width <= $breakpoints-4xl) {
+  .#{$component-name} {
+    max-width: calc($breakpoints-3xl - 6rem);
+  }
+}
+
+@media (width <= $breakpoints-3xl) {
+  .#{$component-name} {
+    max-width: calc($breakpoints-2xl - 6rem);
+  }
+}
+
+@media (width <= $breakpoints-2xl) {
+  .#{$component-name} {
+    max-width: calc($breakpoints-xl - 6rem);
+  }
+}
+
+@media (width <= $breakpoints-xl) {
+  .#{$component-name} {
+    max-width: calc($breakpoints-lg - 6rem);
+  }
+}
+
+@media (width <= $breakpoints-lg) {
+  .#{$component-name} {
+    max-width: calc($breakpoints-md - 4rem);
+  }
+}
+
+@media (width <= $breakpoints-md) {
+  .#{$component-name} {
+    max-width: calc($breakpoints-sm - 4rem);
+  }
+}
+
+@media (width <= $breakpoints-sm) {
+  .#{$component-name} {
+    max-width: calc(100dvw - 4rem);
+  }
+}
+
+@media (width <= $breakpoints-xs) {
+  .#{$component-name} {
+    max-width: calc(100dvw - 2rem);
+  }
+}

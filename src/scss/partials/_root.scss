@@ -1,0 +1,67 @@
+/* stylelint-disable */
+
+// Breakpoints
+$breakpoints-xs: 360px;
+$breakpoints-sm: 576px;
+$breakpoints-md: 768px;
+$breakpoints-lg: 992px;
+$breakpoints-xl: 1024px;
+$breakpoints-2xl: 1272px;
+$breakpoints-3xl: 1440px;
+$breakpoints-4xl: 1600px;
+
+:root {
+  // Familles de Fonts
+  --font-family-primary: 'Rubik', Arial, sans-serif;
+
+  // Couleurs principales
+  --brand-uno: #344861;
+  --brand-uno-light: #6e7c8c;
+  --brand-uno-hover: #bbdefb;
+  --brand-uno-border: var(--brand-uno);
+  --brand-uno-background: #e2ebf3;
+
+  // Neutral colors: nuances de gris
+  --neutral-transparent: rgba(255, 255, 255, 0);
+  --neutral-white: #FFF;
+  --neutral-black: #111111;
+  --neutral: var(--brand-uno);
+
+  // Couleurs sémantiques
+  --signal-success: #5CBF54; // Vert
+  --signal-success-background: #CDEBCB;
+  --signal-success-border: var(--signal-success);
+
+  --signal-warning: #E39735; // Orange
+  --signal-warning-background: #F1D5B1;
+  --signal-warning-border: var(--signal-warning);
+
+  --signal-error: #C71414; // Rouge
+  --signal-error-background: #FDEDED;
+  --signal-error-border: var(--signal-error);
+
+  // Radius
+  --radius-none: 0;
+  --radius-xs: 0.125rem;
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.25rem;
+  --radius-3xl: 1.5rem;
+  --radius-full: 999px;
+
+  // Icons
+  --icon-xs: 0.5rem;
+  --icon-sm: 0.75rem;
+  --icon-md: 1rem;
+  --icon-lg: 1.25rem;
+  --icon-xl: 1.5rem;
+  --icon-2xl: 2rem;
+  --icon-3xl: 3rem;
+  --icon-base: var(--icon-xl);
+
+  // Transition
+  --transition-base: 0.2s ease-out;
+}
+/* stylelint-enable */

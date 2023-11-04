@@ -1,0 +1,21 @@
+$component-name: sudoku;
+
+.#{$component-name} {
+
+  &__canvas {
+    position: fixed;
+    top: 18dvh;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  &__background {
+    z-index: -1;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100dvw;
+    height: 25dvh;
+    background: var(--brand-uno-background);
+  }
+}

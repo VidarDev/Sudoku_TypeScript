@@ -1,0 +1,30 @@
+{
+  "name": "js_algo-1",
+  "module": "server.ts",
+  "type": "module",
+  "scripts": {
+    "start": "bun src/index.ts",
+    "dev": "bun --hot src/index.ts",
+    "server": "bun run server.ts",
+    "build": "bun --minify build src/ts/index.ts --outdir www/js",
+    "watch": "bun --minify --watch build src/ts/index.ts --outdir www/js",
+    "sass": "sass src/scss/theme.scss:./www/css/style.css --style compressed",
+    "sass-watch": "sass --watch src/scss/theme.scss:./www/css/style.css --style expanded",
+    "stylelint": "stylelint \"**/*.scss\" --formatter verbose",
+    "stylelint-fix": "stylelint \"**/*.scss\" --fix",
+    "eslint": "eslint ./src/ts/*",
+    "eslint-fix": "eslint ./src/ts/* --fix"
+  },
+  "devDependencies": {
+    "bun-types": "latest",
+    "@typescript-eslint/eslint-plugin": "^6.8.0",
+    "@typescript-eslint/parser": "^6.8.0",
+    "eslint": "^8.52.0",
+    "stylelint": "^15.10.3",
+    "stylelint-config-standard": "^34.0.0",
+    "stylelint-config-standard-scss": "^11.0.0"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
