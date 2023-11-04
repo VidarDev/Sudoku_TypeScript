@@ -76,12 +76,26 @@ export class UIElements {
         return this
     }
 
-    drawRow(): UIElements {
+    drawRow(
+        j: number,
+        fillColor?: string
+    ): UIElements {
+        for (let i = 0; i < 9; i++) {
+            this.drawCell(i, j, this._cellSize, UIElements.colorBorder, fillColor)
+        }
 
+        return this
     }
 
-    drawColumn(): UIElements {
+    drawColumn(
+        i: number,
+        fillColor?: string
+    ): UIElements {
+        for (let j = 0; j < 9; j++) {
+            this.drawCell(i, j, this._cellSize, UIElements.colorBorder, fillColor)
+        }
 
+        return this
     }
 
     drawGroup(
@@ -100,8 +114,13 @@ export class UIElements {
         return this
     }
 
-    drawCellValue(): UIElements {
+    drawCellValue(
+        i: number,
+        j: number,
+        value: number
+    ): UIElements {
 
+        return this
     }
 
     drawCellDomain(): UIElements {
@@ -125,6 +144,9 @@ export class UIElements {
     }
 
     drawVictory(): UIElements {
-        this.clearCanvas()
+        this._ctx.fillStyle = UIElements.colorSelected
+        this._ctx.fillRect(0, 0, this.width, this.height)
+
+        return this
     }
 }

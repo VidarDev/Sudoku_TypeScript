@@ -2,6 +2,8 @@
 
 import { webSocketInit } from "./services/webSocket/ws";
 import { UIElements } from "./services/UI/elements";
+import { eventHandlersInit} from "./services/eventHandlers";
+import { cellAnimation } from "./services/UI/animation.ts";
 
 type InitialState = {
     readonly canvas: HTMLCanvasElement
@@ -40,10 +42,13 @@ function init(canvasId: string): InitialState | false {
 
 function start(initialState: InitialState) {
     const { canvas, ui, cellDomains, cellValues } = initialState
+    let selectedCell: [number, number] | null = null
 
     function refreshGrid() {
         ui.drawEmptyGrid()
     }
+
+    cellAnimation({ canvas, ui })
 
     webSocketInit()
     refreshGrid()

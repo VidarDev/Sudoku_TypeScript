@@ -4,6 +4,7 @@ import type { ServerWebSocket, Server } from "bun"
 
 const serverPort: string | undefined = process.env.PORT
 const baseDir = join(import.meta.dir, "www") // Path du répertoire du index.html
+const developmentMode: boolean = process.env.ENV === "local" ? true : false
 
 const wsClients: Set<ServerWebSocket> = new Set()
 const serverWatcher: FSWatcher = watch(
@@ -18,7 +19,7 @@ process.on("SIGINT", () => process.exit(0)) // ctrl + c : Interruption du serveu
 
 const server = Bun.serve({
     port: serverPort,
-    development: true, // Mode développement pour la compilation
+    development: developmentMode, // Mode développement pour la compilation
 
     async fetch(req: Request, srv: Server) {
         if (srv.upgrade(req)) { return }
