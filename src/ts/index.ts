@@ -42,7 +42,7 @@ function start(initialState: InitialState) {
     const { canvas, ui, cellDomains, cellValues } = initialState
 
     function refreshGrid() {
-        ui.clearCanvas()
+        ui.drawEmptyGrid()
     }
 
     webSocketInit()

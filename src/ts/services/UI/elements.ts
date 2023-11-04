@@ -9,7 +9,7 @@ export class UIElements {
     static colorSelected: string = stylesCSS.getPropertyValue('--brand-uno-hover')
     static colorText: string = stylesCSS.getPropertyValue('--brand-uno')
     static colorTextLight: string = stylesCSS.getPropertyValue('--brand-uno-light')
-    static colorBorder: string = stylesCSS.getPropertyValue('--brand-uno-light')
+    static colorBorder: string = stylesCSS.getPropertyValue('--sudoku-border')
     static colorBorderBold: string = stylesCSS.getPropertyValue('--brand-uno')
 
     static font: string = stylesCSS.getPropertyValue('--font-family-primary')
@@ -24,7 +24,8 @@ export class UIElements {
     static get(canvas: HTMLCanvasElement): UIElements | false {
         console.log(UIElements._ui)
         console.log(UIElements._ui.has(canvas))
-        console.log(UIElements._ui.has(canvas))
+        console.log(UIElements._ui.get(canvas))
+        console.log(UIElements._ui.get(canvas)!)
 
         if(UIElements._ui.has(canvas)) {
             return UIElements._ui.get(canvas)
@@ -37,6 +38,7 @@ export class UIElements {
 
         const ui = new UIElements(canvas, ctx)
         UIElements._ui.set(canvas, ui)
+
         return ui
     }
 
@@ -47,13 +49,31 @@ export class UIElements {
     get cellSize() { return this._cellSize }
 
     clearCanvas(): UIElements {
-        this._ctx.fillStyle = UIElements.colorSelected
+        this._ctx.fillStyle = UIElements.colorBackground
         this._ctx.fillRect(0, 0, this.width, this.height)
+
         return this
     }
 
-    drawCell(): UIElements {
+    drawCell(
+        i: number,
+        j: number,
+        cellSize: number = this._cellSize,
+        borderColor: string = UIElements.colorBorder,
+        fillColor?: string
+    ): UIElements {
+        const x = i * cellSize
+        const y = j * cellSize
 
+        if (fillColor) {
+            this._ctx.fillStyle = fillColor
+            this._ctx.fillRect(x + 1, y + 1, cellSize - 2, cellSize - 2)
+        }
+
+        this._ctx.strokeStyle = borderColor
+        this._ctx.strokeRect(x, y, cellSize, cellSize)
+
+        return this
     }
 
     drawRow(): UIElements {
@@ -64,8 +84,20 @@ export class UIElements {
 
     }
 
-    drawGroup(): UIElements {
+    drawGroup(
+        groupI: number,
+        groupJ: number,
+        fillColor?: string
+    ): UIElements {
+        this.drawCell(groupI, groupJ, this._cellSize * 3, UIElements.colorBorderBold, fillColor)
 
+        for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+                this.drawCell(groupI * 3 + i, groupJ * 3 + j, this._cellSize, UIElements.colorBorder)
+            }
+        }
+
+        return this
     }
 
     drawCellValue(): UIElements {
