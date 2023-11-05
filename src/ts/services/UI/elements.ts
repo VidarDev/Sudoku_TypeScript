@@ -1,3 +1,5 @@
+import type { SudokuDomain, SudokuValues, SudokuCell } from "../sudoku/sudokuTypes"
+
 const stylesCSS = getComputedStyle(document.documentElement)
 
 export class UIElements {
@@ -24,15 +26,6 @@ export class UIElements {
     }
 
     static get(canvas: HTMLCanvasElement): UIElements | false {
-        console.log(UIElements._ui)
-        console.log(UIElements._ui.has(canvas))
-        console.log(UIElements._ui.get(canvas))
-        console.log(UIElements._ui.get(canvas)!)
-
-        if(UIElements._ui.has(canvas)) {
-            return UIElements._ui.get(canvas)!
-        }
-
         const ctx = canvas.getContext("2d")
         if (ctx === null) {
             return false
@@ -119,7 +112,7 @@ export class UIElements {
     drawCellValue(
         i: number,
         j: number,
-        value: number
+        value: SudokuValues
     ): UIElements {
         this._ctx.fillStyle = UIElements.colorText
         this._ctx.font = `600 48px ${UIElements.font}`
@@ -137,7 +130,7 @@ export class UIElements {
     drawCellDomain(
         i: number,
         j: number,
-        domain: number[]
+        domain: SudokuDomain
     ): UIElements {
         this._ctx.fillStyle = UIElements.colorTextLight
         this._ctx.font = `400 14px ${UIElements.font}`
@@ -151,7 +144,7 @@ export class UIElements {
         const y = j * this._cellSize + cellPadding
 
         for (let k = 1; k <= 9; k++) {
-            const vk = domain.includes(k) ? k : null
+            const vk = domain.has(k as SudokuValues) ? k : null
             const vi = (k - 1) % 3
             const vj = Math.floor((k - 1) / 3)
             const vx = x + valueStep * vi
@@ -206,7 +199,7 @@ export class UIElements {
         this._ctx.font = `600 72px ${UIElements.font}`
         this._ctx.textBaseline = "middle"
         this._ctx.textAlign = "center"
-        this._ctx.fillText("Victory !".toUpperCase(), this._canvas.width / 2, this._canvas.height / 2);
+        this._ctx.fillText("Victory !".toUpperCase(), this._canvas.width / 2, this._canvas.height / 2)
 
         return this
     }

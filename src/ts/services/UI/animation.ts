@@ -1,10 +1,10 @@
-import type { UIElements } from "./elements";
+import type { UIElements } from "./elements"
+import { SudokuDomain, SudokuValues, SudokuCell } from "../sudoku/sudokuTypes.ts";
 
 type CellAnimationParams = {
     readonly canvas: HTMLCanvasElement
     readonly ui: UIElements
-    readonly cellDomains: number[][][]
-    readonly cellValues: (number | null)[][]
+    readonly cellValues: SudokuCell[][]
 }
 
 export function cellAnimation(params: CellAnimationParams) {
@@ -20,9 +20,9 @@ export function cellAnimation(params: CellAnimationParams) {
 
     function drawCellContent(i: number, j: number) {
         if (cellValues[i][j] !== null) {
-            ui.drawCellValue(i, j, cellValues[i][j]!)
+            ui.drawCellValue(i, j, cellValues[i][j].value!)
         } else {
-            ui.drawCellDomain(i, j, cellDomains[i][j])
+            ui.drawCellDomain(i, j, cellValues[i][j].domain)
         }
     }
 
