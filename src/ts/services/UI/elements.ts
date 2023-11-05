@@ -28,7 +28,7 @@ export class UIElements {
         console.log(UIElements._ui.get(canvas)!)
 
         if(UIElements._ui.has(canvas)) {
-            return UIElements._ui.get(canvas)
+            return UIElements._ui.get(canvas)!
         }
 
         const ctx = canvas.getContext("2d")
@@ -119,12 +119,45 @@ export class UIElements {
         j: number,
         value: number
     ): UIElements {
+        this._ctx.fillStyle = UIElements.colorText
+        this._ctx.font = `600 48px ${UIElements.font}`
+        this._ctx.textBaseline = "middle"
+        this._ctx.textAlign = "center"
+
+        const x = i * this._cellSize + Math.floor(this._cellSize * 0.5)
+        const y = j * this._cellSize + Math.floor(this._cellSize * 0.575)
+
+        this._ctx.fillText(value.toString(), x, y)
 
         return this
     }
 
-    drawCellDomain(): UIElements {
+    drawCellDomain(
+        i: number,
+        j: number,
+        domain: number[]
+    ): UIElements {
+        this._ctx.fillStyle = UIElements.colorTextLight
+        this._ctx.font = `400 14px ${UIElements.font}`
+        this._ctx.textBaseline = "top"
+        this._ctx.textAlign = "start"
 
+        const areaSize = Math.max(this._cellSize - 2, Math.floor(this._cellSize * 0.8))
+        const valueStep = Math.floor(areaSize / 3)
+        const cellPadding = Math.max(1, Math.floor(this._cellSize * 0.1))
+        const x = i * this._cellSize + cellPadding
+        const y = j * this._cellSize + cellPadding
+
+        for (let k = 1; k <= 9; k++) {
+            const vk = domain.includes(k) ? k : null
+            const vi = (k - 1) % 3
+            const vj = Math.floor((k - 1) / 3)
+            const vx = x + valueStep * vi
+            const vy = y + valueStep * vj
+            this._ctx.fillText(vk !== null ? vk.toString() : "", vx, vy)
+        }
+
+        return this
     }
 
     drawEmptyGrid(): UIElements {

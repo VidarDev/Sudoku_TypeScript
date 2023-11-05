@@ -4,7 +4,7 @@ import type { ServerWebSocket, Server } from "bun"
 
 const serverPort: string | undefined = process.env.PORT
 const baseDir = join(import.meta.dir, "www") // Path du répertoire du index.html
-const developmentMode: boolean = process.env.ENV === "local" ? true : false
+const developmentMode: boolean = process.env.ENV === "local"
 
 const wsClients: Set<ServerWebSocket> = new Set()
 const serverWatcher: FSWatcher = watch(
