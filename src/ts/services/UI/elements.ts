@@ -11,6 +11,8 @@ export class UIElements {
     static colorTextLight: string = stylesCSS.getPropertyValue('--brand-uno-light')
     static colorBorder: string = stylesCSS.getPropertyValue('--sudoku-border')
     static colorBorderBold: string = stylesCSS.getPropertyValue('--brand-uno')
+    static colorSuccess: string = stylesCSS.getPropertyValue('--signal-success')
+    static colorSuccessBackground: string = stylesCSS.getPropertyValue('--signal-success-background')
 
     static font: string = stylesCSS.getPropertyValue('--font-family-primary')
 
@@ -172,13 +174,39 @@ export class UIElements {
         return this
     }
 
-    colorizeSelectedStuff(): UIElements {
+    colorizeSelectedStuff(selectedCell: [number, number] | null): UIElements {
+        if (selectedCell === null) {
+            return this
+        }
 
+        const selectedGroup = [
+            Math.floor(selectedCell[0] / 3),
+            Math.floor(selectedCell[1] / 3),
+        ]
+
+        this.drawRow(selectedCell[1], UIElements.colorBackgroundHighlight)
+            .drawColumn(selectedCell[0], UIElements.colorBackgroundHighlight)
+            .drawGroup(selectedGroup[0], selectedGroup[1], UIElements.colorBackgroundHighlight)
+            .drawCell(
+                selectedCell[0],
+                selectedCell[1],
+                this._cellSize,
+                UIElements.colorBorder,
+                UIElements.colorSelected
+            )
+
+        return this
     }
 
     drawVictory(): UIElements {
-        this._ctx.fillStyle = UIElements.colorSelected
+        this._ctx.fillStyle = UIElements.colorSuccessBackground
         this._ctx.fillRect(0, 0, this.width, this.height)
+
+        this._ctx.fillStyle = UIElements.colorSuccess
+        this._ctx.font = `600 72px ${UIElements.font}`
+        this._ctx.textBaseline = "middle"
+        this._ctx.textAlign = "center"
+        this._ctx.fillText("Victory !".toUpperCase(), this._canvas.width / 2, this._canvas.height / 2);
 
         return this
     }

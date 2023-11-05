@@ -3,7 +3,7 @@
 import { webSocketInit } from "./services/webSocket/ws";
 import { UIElements } from "./services/UI/elements";
 import { eventHandlersInit} from "./services/eventHandlers";
-// import { cellAnimation } from "./services/UI/animation.ts";
+import { cellAnimation } from "./services/UI/animation";
 
 type InitialState = {
     readonly canvas: HTMLCanvasElement
@@ -13,16 +13,19 @@ type InitialState = {
 }
 
 function init(canvasId: string): InitialState | false {
-    const canvas = document.getElementById(canvasId) as HTMLCanvasElement | null;
-    const ui = UIElements.get(canvas)
+    const canvas = document.getElementById(canvasId) as HTMLCanvasElement | null
     const cellDomains: number[][][] = []
     const cellValues: (number | null)[][] = []
+
+    const animationMode: boolean = true
 
     // Error 1 : canvas
     if (canvas === null) {
         console.error("Cannot get the given Canvas 2D rendering context")
         return false
     }
+
+    const ui = UIElements.get(canvas)
     // Error 2 : canvas
     if (!ui) {
         return false
@@ -37,13 +40,14 @@ function init(canvasId: string): InitialState | false {
         }
     }
 
+    cellAnimation({ canvas, ui, cellDomains, cellValues })
+
     return { canvas, ui, cellDomains, cellValues }
 }
 
-function start(initialState: InitialState) {
-    const { canvas, ui, cellDomains, cellValues } = initialState
+function start(params: InitialState) {
+    const { canvas, ui, cellDomains, cellValues } = params
     let selectedCell: [number, number] | null = null
-    const animationMode: boolean = true
 
     function drawCellContent(i: number, j: number) {
         if (cellValues[i][j] !== null) {
@@ -83,6 +87,10 @@ function start(initialState: InitialState) {
         remove: boolean
     ) {
         const action = remove ? removeValueFromCellDomain : addValueToCellDomain
+        const iGroup = Math.floor(i / 3)
+        const jGroup = Math.floor(j / 3)
+
+
         for (let k = 0; k < 9; k++) {
             if (k !== i) {
                 action(k, j, v)
@@ -91,12 +99,11 @@ function start(initialState: InitialState) {
                 action(i, k, v)
             }
         }
-        const iGroup = Math.floor(i / 3)
-        const jGroup = Math.floor(j / 3)
-        for (let j2 = 0; j2 < 3 ; j2++) {
-            for (let i2 = 0; i2 < 3; i2++) {
-                const iCell = iGroup * 3 + i2
-                const jCell = jGroup * 3 + j2
+
+        for (let ix = 0; ix < 3 ; ix++) {
+            for (let jy = 0; jy < 3; jy++) {
+                const iCell = iGroup * 3 + ix
+                const jCell = jGroup * 3 + jy
                 if (iCell !== i && jCell !== j) {
                     action(iCell, jCell, v)
                 }
@@ -107,19 +114,21 @@ function start(initialState: InitialState) {
     function toggle(v: number) {
         const i = selectedCell![0]
         const j = selectedCell![1]
-        if (cellValues[j][i] === null) {
-            if (cellDomains[j][i].includes(v)) {
-                cellValues[j][i] = v
+
+        if (cellValues[i][j] === null) {
+            if (cellDomains[i][j].includes(v)) {
+                cellValues[i][j] = v
                 maintainImpactedCellsDomain(i, j, v, true)
                 refreshGrid()
             }
-        } else if (cellValues[j][i] === v) {
-            cellValues[j][i] = null
+        }
+        else if (cellValues[i][j] === v) {
+            cellValues[i][j] = null
             maintainImpactedCellsDomain(i, j, v, false)
-            for (let j2 = 0; j2 < 9; j2++) {
-                for (let i2 = 0; i2 < 9; i2++) {
-                    if (cellValues[j2][i2] === v) {
-                        maintainImpactedCellsDomain(i2, j2, v, true)
+            for (let ix = 0; ix < 9; ix++) {
+                for (let jy = 0; jy < 9; jy++) {
+                    if (cellValues[ix][jy] === v) {
+                        maintainImpactedCellsDomain(ix, jy, v, true)
                     }
                 }
             }
@@ -127,8 +136,20 @@ function start(initialState: InitialState) {
         }
     }
 
+    function checkVictory(): boolean {
+        for(let i = 0; i < 9; i++) {
+            for(let j = 0; j < 9; j++) {
+                if(cellValues[i][j] === null) {
+                    return false; // Si une case est vide, le jeu n'est pas gagné
+                }
+            }
+        }
+        return true; // Si toutes les cases sont remplies, le jeu est gagné
+    }
+
     function refreshGrid() {
         ui.drawEmptyGrid()
+            .colorizeSelectedStuff(selectedCell)
         drawCellsContent()
     }
 
@@ -139,6 +160,10 @@ function start(initialState: InitialState) {
 
     webSocketInit()
     refreshGrid()
+
+    if(checkVictory()) {
+        ui.drawVictory()
+    }
 }
 
 document.addEventListener("DOMContentLoaded", (event) => {

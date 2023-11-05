@@ -12,7 +12,7 @@ export function cellAnimation(params: CellAnimationParams) {
 
     const stylesCSS = getComputedStyle(document.documentElement)
     const colorBorder: string = stylesCSS.getPropertyValue('--sudoku-border')
-    const colorSelected: string = stylesCSS.getPropertyValue('--signal-success-background')
+    const colorSelected: string = stylesCSS.getPropertyValue('--signal-error-background')
     let di: number = 1
     let dj: number = 1
     let i: number = Math.floor(Math.random() * 9)
@@ -34,17 +34,21 @@ export function cellAnimation(params: CellAnimationParams) {
         }
     }
 
-    ui.drawEmptyGrid()
-    ui.drawCell(i, j, ui.cellSize, colorBorder, colorSelected)
-    drawCellsContent()
+    setInterval(() => {
+        ui.drawCell(i, j, ui.cellSize, colorBorder, "#fff")
+        drawCellContent(i, j)
 
-    if(i + di > 8 || i + di < 0) {
-        di = -di
-    }
-    if(j + dj > 8 || j + dj < 0) {
-        dj = -dj
-    }
+        if(i + di > 8 || i + di < 0) {
+            di = -di
+        }
+        if(j + dj > 8 || j + dj < 0) {
+            dj = -dj
+        }
 
-    i += di
-    j += dj
+        i += di
+        j += dj
+
+        ui.drawCell(i, j, ui.cellSize, colorBorder, colorSelected)
+        drawCellContent(i, j)
+    }, 1000)
 }
