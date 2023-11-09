@@ -1,7 +1,7 @@
 import type {AppElements} from "./htmlElements"
-import type {UISudoku} from "./ui"
-import type {SudokuValues} from "../SudokuTypes"
-import type {App} from "../App"
+import type {UISudoku} from "../../sudoku/UI"
+import type {SudokuValues} from "../../sudoku/SudokuTypes.ts"
+import type {App} from "../../App"
 
 type EventHandlersParams = {
   readonly app: App
@@ -52,6 +52,10 @@ export function eventHandlersInit(params: EventHandlersParams) {
   params.elements.gtBtn.onclick = (evt: MouseEvent) => {
     params.app.reset()
     params.app.launchGTSolve()
+  }
+  params.elements.btBtn.onclick = (evt: MouseEvent) => {
+    params.app.reset()
+    params.app.launchBTSolve()
   }
 }
 

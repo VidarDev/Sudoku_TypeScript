@@ -62,7 +62,7 @@ export class UISudoku {
     i: number,
     j: number,
     cellSize: number = this._cellSize,
-    borderColor: string = UISudoku.thinLineColor,
+    borderColor: string = UISudoku.colorBorder,
     fillColor?: string,
   ): UISudoku {
     const x = i * cellSize

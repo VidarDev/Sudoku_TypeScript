@@ -1,4 +1,4 @@
-import type {App} from "../App"
+import type {App} from "../../App"
 import {BuiltinProblem} from "../CSP"
 
 export type StatsDisplayProps = {

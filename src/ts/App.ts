@@ -186,6 +186,22 @@ export class App {
     this._animateSolve(1000)
   }
 
+  launchBTSolve() {
+    if (!this._solver || this._solver.solving || !this._problem) {
+      return;
+    }
+    this._startTime = Date.now();
+    this._testedSolutions = 0n;
+    this._prunedSolutions = 0n;
+    this._minDt = Number.MAX_SAFE_INTEGER;
+
+    // Initialisation de l'itérateur de backtracking
+    // this._btIterator = this._solver.bt();
+
+    // Démarrage de la résolution
+    this._animateSolve(1000);
+  }
+
   private _animateSolve(t: number) {
     if (this._solverSteps) {
       this._solverSteps(this._computeSolvingIterations(t))
