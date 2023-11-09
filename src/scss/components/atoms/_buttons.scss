@@ -1,0 +1,88 @@
+$component-name: btn;
+
+.#{$component-name} {
+  display: inline-flex;
+  font-size: 1rem;
+  line-height: 1.1;
+  margin-bottom: 0;
+  text-transform: uppercase;
+  padding: 0.5rem 0.75rem;
+  color: var(--neutral) !important;
+  border: 1px solid var(--brand-uno-hover) !important;
+  background-color: var(--brand-uno-hover) !important;
+  border-radius: var(--radius-sm);
+
+  &:visited {
+    color: var(--neutral-white) !important;
+    background-color: var(--neutral) !important;
+    border-color: var(--neutral) !important;
+  }
+
+  &:hover, &:focus {
+    color: var(--neutral-white) !important;
+    background-color: var(--neutral) !important;
+    border-color: var(--neutral) !important;
+  }
+}
+
+.#{$component-name}--reset {
+  padding: 0.5rem 0.75rem;
+  color: var(--neutral) !important;
+  border: 1px solid var(--brand-uno-hover) !important;
+  background-color: var(--brand-uno-hover) !important;
+  border-radius: var(--radius-sm);
+
+  &:visited {
+    color: var(--signal-error) !important;
+    background-color: var(--signal-error-background) !important;
+    border-color: var(--signal-error-background) !important;
+  }
+
+  &:hover, &:focus {
+    color: var(--signal-error) !important;
+    background-color: var(--signal-error-background) !important;
+    border-color: var(--signal-error-background) !important;
+  }
+}
+
+.#{$component-name}__radio {
+  position: relative;
+  display: inline-flex;
+  font-size: 1rem;
+  line-height: 1.1;
+  margin-bottom: 0;
+  text-transform: uppercase;
+  padding: 0.5rem 0.75rem;
+  color: var(--neutral) !important;
+  border: 1px solid var(--brand-uno-hover) !important;
+  background-color: var(--brand-uno-hover) !important;
+  border-radius: var(--radius-sm);
+
+  &:visited {
+    color: var(--signal-success) !important;
+    background-color: var(--signal-success-background) !important;
+    border-color: var(--signal-success-background) !important;
+  }
+
+  &:hover, &:focus {
+    color: var(--signal-success) !important;
+    background-color: var(--signal-success-background) !important;
+    border-color: var(--signal-success-background) !important;
+  }
+
+  &:has(input[type="checkbox"]:checked, input[type="radio"]:checked) {
+    color: var(--signal-success) !important;
+    background-color: var(--signal-success-background) !important;
+    border-color: var(--signal-success-background) !important;
+  }
+
+  input[type="checkbox"], input[type="radio"] {
+    z-index: 1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    visibility: hidden;
+  }
+}

@@ -1,3 +1,43 @@
 #sudokuCanvas {
   border: 1px solid var(--brand-uno-border);
+  width: fit-content;
+  height: fit-content;
+
+  @media (width < $breakpoints-xl) {
+    margin-inline: auto;
+  }
+}
+
+#testedSolutions {
+  color: var(--signal-warning);
+  font-size: 1.75rem;
+  line-height: 1.1;
+  font-weight: 600;
+
+  @media (width < $breakpoints-xl) {
+    font-size: 1.25rem;
+  }
+}
+
+#prunedSolutions {
+  color: var(--signal-error);
+  font-size: 1.75rem;
+  line-height: 1.1;
+  font-weight: 600;
+
+  @media (width < $breakpoints-xl) {
+    font-size: 1.25rem;
+  }
+}
+
+#sudokuSolutionsSize {
+  color: var(--signal-success);
+  font-size: 1.75rem;
+  line-height: 1.1;
+  font-weight: 600;
+  word-wrap: break-word;
+
+  @media (width < $breakpoints-xl) {
+    font-size: 1.25rem;
+  }
 }

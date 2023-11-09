@@ -4,7 +4,7 @@ import {webSocketInit} from "./services/webSocket/ws.ts"
 import {App} from "./App"
 
 const SUDOKU_CANVAS_ID = "sudokuCanvas"
-const SOLUTION_SPACE_SIZE_P_ID = "solutionsSpaceSize"
+const SOLUTION_SPACE_SIZE_P_ID = "sudokuSolutionsSize"
 const RESET_BTN_ID = "reset"
 const GT_BTN_ID = "GT"
 const BT_BTN_ID = "BT"

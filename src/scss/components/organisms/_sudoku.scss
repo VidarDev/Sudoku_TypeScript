@@ -1,21 +1,33 @@
 $component-name: sudoku;
 
 .#{$component-name} {
+  position: relative;
+  width: 100%;
 
   &__canvas {
-    position: fixed;
-    top: 18dvh;
-    left: 50%;
-    transform: translateX(-50%);
+    position: relative;
+    top: -8dvh;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
   }
 
   &__background {
     z-index: -1;
-    position: fixed;
+    position: relative;
     top: 0;
     left: 0;
     width: 100dvw;
     height: 25dvh;
     background: var(--brand-uno-background);
+  }
+}
+
+@media (width < $breakpoints-xl) {
+  .#{$component-name} {
+    &__canvas {
+      flex-direction: column;
+      margin-inline: 16px;
+    }
   }
 }

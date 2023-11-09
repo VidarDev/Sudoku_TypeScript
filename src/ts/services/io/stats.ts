@@ -25,10 +25,12 @@ export class StatsDisplay {
     if (typeof spaceSize === "undefined") {
       return
     }
-    this._solutionSpaceSizeP.innerText = `${spaceSize} solutions possibles.`
+    this._solutionSpaceSizeP.innerText = `${formatNumber(spaceSize)}` // solutions possibles.
+
     const {start, tested, pruned} = this._app.stats
-    this._testedSolutionsP.innerText = `${tested} solutions testées.`
-    this._prunedSolutionsP.innerText = `${pruned} solutions élaguées.`
+
+    this._testedSolutionsP.innerText = `${tested}` // solutions testées.
+    this._prunedSolutionsP.innerText = `${pruned}` // solutions élaguées.
     /*const ratio = BuiltinProblem.bigintRatio(tested + pruned, spaceSize)
     this._progressP.innerText = `${
       typeof ratio === "number"
@@ -46,5 +48,20 @@ export class StatsDisplay {
       props.progressP,
       props.timeleftP,
     )
+  }
+}
+
+function formatNumber(num: bigint): string {
+  const maxNumber = BigInt("999999999999");
+
+  if (num <= maxNumber) {
+    return num.toString();
+  } else {
+    // Convertir en notation scientifique
+    const numStr = num.toString();
+    const length = numStr.length;
+    const exponent = length - 1;
+    const decimalPart = numStr[0] + (length > 1 ? '.' + numStr.substring(1, 3) : '');
+    return `${decimalPart}e${exponent}`;
   }
 }

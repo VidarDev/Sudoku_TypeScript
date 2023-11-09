@@ -32,32 +32,51 @@
         <div role="presentation" aria-hidden="true" class="sudoku__background"></div>
         <div class="sudoku__canvas">
             <canvas id="sudokuCanvas" class="canvas" width="630" height="630"></canvas>
-            <div>
-                <h1><u>Sudoku</u></h1>
-                <p>Le sudoku est un jeu de réflexion, dont le but est de remplir une grille de chiffres allant de 1 à 9, tout en respectant certaines contraintes.</p>
-                <h2>Nombre de combinaisons possibles</h2>
-                <p id="solutionsSpaceSize"></p>
-                <div style="display: flex; flex-direction: row; gap: 8px;">
-                    <button id="reset">Reset</button>
-                    <span>Résoudre:</span>
-                    <button id="GT">GT</button>
-                    <button id="BT">BT</button>
-                    <span>Elagage:</span>
-                    <label>NC<input type="checkbox" id="NC"></label>/
+            <div class="sudoku-stats">
+                <div class="sudoku-stats__algo">
                     <div>
-                        <label>Pas d'AC<input type="radio" name="AC" id="ACNone" checked></label>
-                        <label>AC-1<input type="radio" name="AC" id="AC1"></label>
-                        <label>AC-3<input type="radio" name="AC" id="AC3"></label>
+                        <span>Résoudre:</span>
+                        <button class="btn" id="GT">Generate and Test</button>
+                        <button class="btn" id="BT">Backtracking</button>
+                    </div>
+                    <div>
+                        <span>Elagage:</span>
+                        <label class="btn btn__radio">
+                            NC
+                            <input type="checkbox" id="NC">
+                        </label>
+                        <span>/</span>
+                        <div>
+                            <label class="btn btn__radio">
+                                Pas d'AC
+                                <input type="radio" name="AC" id="ACNone" checked>
+                            </label>
+                            <label class="btn btn__radio">
+                                AC-1
+                                <input type="radio" name="AC" id="AC1">
+                            </label>
+                            <label class="btn btn__radio">
+                                AC-3
+                                <input type="radio" name="AC" id="AC3">
+                            </label>
+                        </div>
+                    </div>
+                    <div>
+                        <button class="btn btn--reset" id="reset">Reset</button>
                     </div>
                 </div>
-                <h2>Solutions testées</h2>
+                <h2 class="sudoku-stats__title">Statistiques et Algos</h2>
+                <p>Le Sudoku est un jeu de réflexion dans lequel le but est de remplir une grille de nombres de <b>1</b> à <b>9</b> en respectant certaines contraintes.</p>
+                <h3>Nombre de combinaisons possibles</h3>
+                <p id="sudokuSolutionsSize"></p>
+                <h3>Solutions testées</h3>
                 <p id="testedSolutions">0</p>
-                <h2>Solutions éliminées</h2>
+                <h3>Solutions éliminées</h3>
                 <p id="prunedSolutions">0</p>
-                <h2>Avancement</h2>
-                <p id="progress"></p>
-                <h2>Temps restant</h2>
-                <p id="timeleft"></p>
+                <h3 class="screen-reader-only">Avancement</h3>
+                <p id="progress">0</p>
+                <h3 class="screen-reader-only">Temps restant</h3>
+                <p class="screen-reader-only" id="timeleft">0</p>
             </div>
         </div>
     </div>

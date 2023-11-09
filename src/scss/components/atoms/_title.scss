@@ -1,7 +1,7 @@
 $component-name: title;
 
 .#{$component-name} {
-  position: fixed;
+  position: absolute;
   top: 10dvh;
   left: 50%;
   transform: translate(-50%, -50%);
