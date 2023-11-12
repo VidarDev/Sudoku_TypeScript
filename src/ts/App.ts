@@ -23,11 +23,12 @@ export class App {
   private _lastTime: number = 0
   private _startTime: number = 0
   private _minDt: number = Number.MAX_SAFE_INTEGER
-  private _handleRefreshStats: Timer | null = null
+  private _handleRefreshStats: number = null
   private _solverSteps?: (iterationsToPerform: number) => void
   private _testedSolutions: bigint = 0n
   private _prunedSolutions: bigint = 0n
   private _gtIterator: Generator<[Affectation<SudokuValues>, boolean]> | null = null
+  private _btIterator: Generator<[Affectation<SudokuValues>, boolean]> | null = null
 
   private constructor(
     private readonly _ui: UISudoku,
@@ -112,6 +113,7 @@ export class App {
   stop() {
     this._solver?.stop()
     this._gtIterator = null
+    this._btIterator = null
     this._lastTime = 0
     this._solverSteps = undefined
     eventHandlerClear(this._elements)
@@ -193,7 +195,34 @@ export class App {
     this._startTime = Date.now();
     this._testedSolutions = 0n;
     this._prunedSolutions = 0n;
-    this._minDt = Number.MAX_SAFE_INTEGER;
+    this._minDt = Number.MAX_SAFE_INTEGER
+    this._iterationsMin = 1
+    this._iterationsMax = 1000
+    if (this._handleRefreshStats === null) {
+      this._handleRefreshStats = setInterval(() => {
+        this._statsDisplay?.display()
+      }, 500)
+    }
+    this._solverSteps = (iterationsToPerform: number) => {
+      let affectation: Affectation<SudokuValues> | null = null
+      for (let i = 0; i < iterationsToPerform; i++) {
+        const [a, consistent] = this._btIterator!.next().value
+        affectation = a
+        this._testedSolutions++
+        if (consistent) {
+          this._btIterator = null
+          break
+        }
+      }
+      if (affectation) {
+        this._problem!.setAffectation(affectation)
+      }
+    }
+    if (this._btIterator === null) {
+      this._btIterator = this._solver.bt(true, true) as Generator<
+          [Affectation<SudokuValues>, boolean]
+      >
+    }
 
     // Initialisation de l'itérateur de backtracking
     // this._btIterator = this._solver.bt();
@@ -201,6 +230,7 @@ export class App {
     // Démarrage de la résolution
     this._animateSolve(1000);
   }
+
 
   private _animateSolve(t: number) {
     if (this._solverSteps) {
