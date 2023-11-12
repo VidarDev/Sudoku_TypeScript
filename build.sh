@@ -28,7 +28,10 @@ npm i
 case $1 in
   'npm')
   ;;
+  'dev')
+    npm run server
+  ;;
   *)
-   npm run build
+    npm run build
   ;;
 esac
